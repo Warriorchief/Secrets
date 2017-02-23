@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    .clickables{
+      float:right;
+      font-size:20px;
+    }
+    h1{
+      font-size:70px;
+      font-weight: bold;
+      color:navy;
+    }
+  </style>
+</head>
+<body>
+  <h1>All Secrets</h1><hr><br>
+  <div class="clickables">
+    <a href="/logout">Log Out</a><br><br>
+    <a href="/profile/<%= @user_id %>">See My Profile</a>
+  </div>
+  <br><br>
+  <div class="container">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Secret</th>
+          <th># Likes</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for s in @secrets %>
+          <tr>
+            <td><%= s.content %></td>
+            <td><%= s.likes.count %></td>
+            <td>
+              <% if s.user_id==@user_id %>
+                <form action="/delete/<%=s.id%>" method="post">
+                  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                  <button type="submit">Delete</button>
+                </form>
+              <% else %>
+                <% if Like.where(user_id:@user_id,secret_id:s.id).empty? %>
+                  <form action="/like/<%=s.id%>" method="post">
+                    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                    <button style="border:3px solid green; color:green;" type="submit">Like</button>
+                  </form>
+                <% else %>
+                  <form action="/unlike/<%=s.id%>" method="post">
+                    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                    <button style="border:3px solid red; color:red;" type="submit">Unlike</button>
+                  </form>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

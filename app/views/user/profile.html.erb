@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    .clickables{
+      float:right;
+      font-size:20px;
+    }
+    .new_secret{
+      float:left;
+      border:2px solid green;
+    }
+    h2{
+      font-size:55px;
+      color:navy;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Hello, <%= @user.name %> !</h1>
+
+  <div class="clickables">
+    <a href="/logout">Log Out</a><br><br>
+    <a href="/display/<%= @user.id %>">See All Secrets</a><br><br>
+    <a href="/edit_profile/<%= @user.id %>">Edit My Profile</a>
+  </div>
+
+  <form class="new_secret" action="/new_secret" method="post">
+    Add New Secret
+    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+    <textarea class="form-control" rows="6" columns="50" name="content"></textarea>
+    <input type="submit" value="Create Secret">
+  </form>
+
+  <div class="container">
+    <h2>My Secrets</h2>
+    <hr>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Secret</th>
+          <th># Likes</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for s in @my_secrets %>
+          <tr>
+            <td><%= s.content %></td>
+            <td><%= s.likes.count %></td>
+            <td>
+              <form action="/delete/<%=s.id%>" method="post">
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                <button type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br><br><br>
+    <h2>Other Secrets I Like</h2>
+    <hr>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Secret</th>
+          <th># Likes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for m in @secrets_liked_by_me %>
+          <tr>
+            <td><%= m.content %></td>
+            <td><%= m.likes.count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Seeeks</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <style>
+      *{
+        margin:5px auto;
+        text-align:center;
+        align-content:center;
+      }
+      body{
+        padding:100px;
+      }
+      thead{
+        border:4px solid brown;
+      }
+      tbody{
+        border:2px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <% if flash[:error] %>
+      <% for e in flash[:error] %>
+        <h1 style="color:red; font-weight:bold">
+          <%= e %>
+        </h1>
+      <% end %>
+    <% end %>
+
+    <% if flash[:success] %>
+      <% for s in flash[:success] %>
+        <h1 style="color:green; font-weight:bold">
+          <%= s %>
+        </h1>
+      <% end %>
+    <% end %>
+
+    <%= yield %>
+  </body>
+</html>

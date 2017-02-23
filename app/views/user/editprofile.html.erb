@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+      h1{
+        font-size:70px;
+        font-weight: bold;
+        color:navy;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Update Information</h1>
+    <hr><br><br>
+    <form class="" action="/update_profile/<%= @user.id %>" method="post">
+      <input type="hidden" name="id" value="<%= @user.id %>">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      Name:<br>
+      <input type="text" name="user[name]" value="<%= @user.name %>"><br>
+      Email:<br>
+      <input type="text" name="user[email]" value="<%= @user.email %>"><br><br>
+      <button type="submit">Update</button>
+    </form>
+  </body>
+</html>
